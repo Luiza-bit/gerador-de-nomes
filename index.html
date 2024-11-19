@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Nicknames</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="Iron-Devil-Treasures-Duck.32.png" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Nicknames</h1>
+        <h4>Escolha um Gênero</h4>
+        <div id="genero">
+            <label><input type="radio" name="genero" value="masculino"> Masculino</label>
+            <label><input type="radio" name="genero" value="feminino"> Feminino</label>
+            <label><input type="radio" name="genero" value="outros"> Outros</label>
+        </div>
+        <input type="text" id="nickname" placeholder="Nickname gerado" readonly>
+        <button id="btnGerar">Gerar Nickname</button>
+        <button id="btnCopiar">Copiar</button>
+    </div>
+    <div id="historico">
+        <h3>Últimos 5 Nomes:</h3>
+        <ul id="listaHistorico"></ul>
+    </div>
+    <div id="notificacao"></div>
+
+    <!-- Carregar faker.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
