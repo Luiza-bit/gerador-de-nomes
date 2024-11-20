@@ -41,11 +41,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-#genero label {
-    margin-right: 15px;
-    font-size: 16px;
-}
-
 #historico {
     position: absolute;
     top: 20px;

@@ -1,12 +1,12 @@
+faker.locale = "pt_BR"; // Configura o faker para a cultura brasileira
+
 const btnGerar = document.getElementById('btnGerar');
 const btnCopiar = document.getElementById('btnCopiar');
 const inputNickname = document.getElementById('nickname');
 const listaHistorico = document.getElementById('listaHistorico');
 const notificacao = document.getElementById('notificacao');
-const radiosGenero = document.querySelectorAll('input[name="genero"]');
 
 let historico = [];
-let ultimoGenero = null;
 
 // Função para mostrar notificações
 function mostrarNotificacao(mensagem, cor = "#d9534f") {
@@ -26,36 +26,17 @@ function atualizarHistorico() {
     });
 }
 
-// Desmarcar rádio no duplo clique
-radiosGenero.forEach(radio => {
-    radio.addEventListener('click', (event) => {
-        if (radio === ultimoGenero) {
-            radio.checked = false;
-            ultimoGenero = null;
-        } else {
-            ultimoGenero = radio;
-        }
-    });
-});
+// Função para gerar uma palavra única (sem espaços)
+function gerarPalavraUnica() {
+    return faker.random.word().replace(/\s+/g, "_"); // Substitui espaços por underscores
+}
 
 // Gerar nickname
 btnGerar.addEventListener('click', () => {
-    const generoSelecionado = document.querySelector('input[name="genero"]:checked');
-    if (!generoSelecionado) {
-        mostrarNotificacao("Deve-se selecionar um dos gêneros abaixo.");
-        return;
-    }
+    // Gerar nickname composto por um username e uma palavra única
+    const nickname = faker.internet.userName();
 
-    let nickname = "";
-    if (generoSelecionado.value === "masculino") {
-        nickname = faker.name.firstName("male");
-    } else if (generoSelecionado.value === "feminino") {
-        nickname = faker.name.firstName("female");
-    } else {
-        nickname = faker.internet.userName();
-    }
-
-    inputNickname.value = nickname;
+    inputNickname.value = nickname.toLowerCase(); // Formata em letras minúsculas
     historico.push(nickname);
     atualizarHistorico();
 });
@@ -71,26 +52,12 @@ btnCopiar.addEventListener('click', () => {
     }
 });
 
-btnGerar.addEventListener('click', () => {
-    const generoSelecionado = document.querySelector('input[name="genero"]:checked');
-    if (!generoSelecionado) {
-        mostrarNotificacao("Deve-se selecionar um dos gêneros abaixo.");
-        return;
+// Deletar nickname ao pressionar Delete ou Backspace
+document.addEventListener('keydown', (event) => {
+    if ((event.key === "Delete" || event.key === "Backspace") && historico.length > 0) {
+        const removido = historico.pop(); // Remove o último nickname do histórico
+        atualizarHistorico(); // Atualiza a lista de histórico
+        inputNickname.value = ""; // Limpa o campo de input
+        mostrarNotificacao(`Nickname "${removido}" foi deletado.`, "#d9534f"); // Mostra notificação
     }
-
-    let nickname = "";
-    if (generoSelecionado.value === "masculino") {
-        // Primeiro nome masculino + sobrenome aleatório
-        nickname = faker.name.firstName("male") + "_" + faker.random.word();
-    } else if (generoSelecionado.value === "feminino") {
-        // Primeiro nome feminino + sobrenome aleatório
-        nickname = faker.name.firstName("female") + "_" + faker.random.word();
-    } else {
-        // Nickname neutro gerado diretamente
-        nickname = faker.internet.userName();
-    }
-
-    inputNickname.value = nickname.toLowerCase(); // Formata em letras minúsculas
-    historico.push(nickname);
-    atualizarHistorico();
 });
